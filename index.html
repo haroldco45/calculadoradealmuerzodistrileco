@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Recetario Inteligente - SUPERARROZ</title>
+    <style>
+        body { font-family: 'Arial', sans-serif; background-color: #f4f4f4; margin: 0; padding: 20px; text-align: center; }
+        .card { background: white; border-radius: 15px; padding: 20px; box-shadow: 0 4px 8px rgba(0,0,0,0.1); max-width: 400px; margin: auto; }
+        h1 { color: #d32f2f; font-size: 24px; }
+        select, input { width: 100%; padding: 10px; margin: 10px 0; border-radius: 5px; border: 1px solid #ccc; }
+        .btn-pedir { background-color: #25d366; color: white; border: none; padding: 15px; width: 100%; border-radius: 5px; font-weight: bold; cursor: pointer; font-size: 16px; }
+        .resultado { background: #fff3e0; padding: 15px; border-radius: 10px; margin: 15px 0; border: 1px dashed #ff9800; }
+        .logo-vibras { width: 80px; margin-top: 20px; opacity: 0.7; }
+        .footer-text { font-size: 10px; color: #777; margin-top: 5px; }
+    </style>
+</head>
+<body>
+
+<div class="card">
+    <h1>Recetario SUPERARROZ 🍚</h1>
+    <p>Calcula los ingredientes para tu familia</p>
+
+    <label>¿Qué vas a cocinar?</label>
+    <select id="receta">
+        <option value="80">Arroz Blanco Tradicional</option>
+        <option value="100">Arroz con Pollo</option>
+        <option value="90">Arroz Atollado</option>
+    </select>
+
+    <label>¿Cuántas personas van a comer?</label>
+    <input type="number" id="comensales" value="1" min="1" oninput="calcular()">
+
+    <div class="resultado" id="resultado-box">
+        <p>Necesitas: <strong><span id="gramos">80</span>g</strong> de SUPERARROZ</p>
+        <p>Costo aprox. arroz: <strong>$<span id="costo">350</span></strong></p>
+    </div>
+
+    <button class="btn-pedir" onclick="enviarWhatsApp()">🛒 Pedir mi Arroz por WhatsApp</button>
+    
+    <p class="footer-text">App desarrollada por Vibras Positivas <br> Derecho de autor (3117700431)</p>
+</div>
+
+<script>
+    const PRECIO_KILO = 4200; // Ajusta este valor según el precio real en Distrileco
+
+    function calcular() {
+        let recetaGramos = document.getElementById('receta').value;
+        let personas = document.getElementById('comensales').value;
+        
+        let totalGramos = recetaGramos * personas;
+        let costoTotal = (totalGramos / 1000) * PRECIO_KILO;
+
+        document.getElementById('gramos').innerText = totalGramos;
+        document.getElementById('costo').innerText = Math.round(costoTotal);
+    }
+
+    function enviarWhatsApp() {
+        let recetaNombre = document.getElementById('receta').options[document.getElementById('receta').selectedIndex].text;
+        let gramos = document.getElementById('gramos').innerText;
+        let tel = "3117700431"; // Tu número de contacto
+        
+        let mensaje = `Hola Distrileco! Vi la app del recetario. Quiero preparar ${recetaNombre} y necesito ${gramos}g de SUPERARROZ. ¿Me envían un paquete a domicilio?`;
+        
+        window.open(`https://wa.me/${tel}?text=${encodeURIComponent(mensaje)}`);
+    }
+</script>
+
+</body>
+</html>
