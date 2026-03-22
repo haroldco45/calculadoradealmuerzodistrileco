@@ -3,127 +3,148 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Recetario Inteligente - SUPERARROZ</title>
+    <title>Distrileco - Recetario SUPERARROZ</title>
     <style>
-        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #f0f2f5; margin: 0; padding: 15px; text-align: center; color: #333; }
-        .card { background: white; border-radius: 20px; padding: 25px; box-shadow: 0 10px 25px rgba(0,0,0,0.1); max-width: 450px; margin: auto; }
-        h1 { color: #d32f2f; font-size: 26px; margin-bottom: 5px; }
-        .subtitle { color: #666; font-size: 14px; margin-bottom: 20px; }
-        label { display: block; text-align: left; font-weight: bold; margin-top: 15px; font-size: 14px; }
-        select, input { width: 100%; padding: 12px; margin: 8px 0; border-radius: 8px; border: 1px solid #ddd; box-sizing: border-box; font-size: 16px; }
-        .resultado { background: #fff8e1; padding: 15px; border-radius: 12px; margin: 20px 0; border: 2px solid #ffca28; }
-        .resultado p { margin: 8px 0; font-size: 18px; }
-        .preparacion-box { text-align: left; background: #f9f9f9; padding: 15px; border-radius: 10px; margin-top: 20px; font-size: 13px; line-height: 1.5; border-left: 5px solid #d32f2f; }
-        .btn-pedir { background-color: #25d366; color: white; border: none; padding: 16px; width: 100%; border-radius: 10px; font-weight: bold; cursor: pointer; font-size: 17px; margin-top: 20px; transition: 0.3s; }
-        .btn-pedir:hover { background-color: #128c7e; }
-        .footer-text { font-size: 11px; color: #888; margin-top: 20px; line-height: 1.4; }
-        .datetime { font-size: 12px; color: #555; font-weight: bold; margin-bottom: 10px; }
+        body { font-family: 'Segoe UI', sans-serif; background-color: #f8f9fa; margin: 0; padding: 15px; text-align: center; }
+        .card { background: white; border-radius: 20px; padding: 25px; box-shadow: 0 8px 20px rgba(0,0,0,0.15); max-width: 450px; margin: auto; border-top: 8px solid #d32f2f; }
+        .datetime { font-size: 11px; color: #555; font-weight: bold; margin-bottom: 15px; background: #eee; padding: 5px; border-radius: 5px; }
+        h1 { color: #d32f2f; margin-bottom: 5px; font-size: 22px; }
+        label { display: block; text-align: left; font-weight: bold; margin-top: 15px; font-size: 13px; color: #444; }
+        select, input { width: 100%; padding: 12px; margin: 8px 0; border-radius: 8px; border: 1px solid #ccc; box-sizing: border-box; font-size: 16px; }
+        .resultado { background: #fff4e5; padding: 15px; border-radius: 12px; margin: 15px 0; border: 1px solid #ff9800; }
+        .resultado strong { color: #e65100; font-size: 20px; }
+        .preparacion-box { text-align: left; background: #fdfdfd; padding: 15px; border-radius: 10px; margin-top: 15px; font-size: 14px; border-left: 5px solid #25d366; box-shadow: inset 0 0 5px rgba(0,0,0,0.05); }
+        .btn-pedir { background-color: #25d366; color: white; border: none; padding: 18px; width: 100%; border-radius: 12px; font-weight: bold; cursor: pointer; font-size: 16px; margin-top: 20px; text-transform: uppercase; }
+        .footer-text { font-size: 10px; color: #999; margin-top: 25px; line-height: 1.4; }
     </style>
 </head>
 <body>
 
 <div class="card">
-    <div id="fecha-actual" class="datetime"></div>
-    <h1>Recetario SUPERARROZ 🍚</h1>
-    <p class="subtitle">Calcula tu almuerzo ideal con Distrileco</p>
+    <div id="fecha-colombia" class="datetime">Cargando hora de Colombia...</div>
+    <h1>SUPERARROZ 🍚</h1>
+    <p style="font-size: 14px; color: #666;">Tu aliado en la cocina - Distrileco</p>
 
-    <label>Tu número de WhatsApp (donde recibirás el pedido):</label>
-    <input type="tel" id="user-whatsapp" placeholder="Ej: 3110000000">
+    <label>Tu nombre o número de contacto:</label>
+    <input type="text" id="user-info" placeholder="Ej: Harold Marin - 311...">
 
-    <label>¿Qué vas a cocinar hoy?</label>
+    <label>¿Qué receta deseas preparar?</label>
     <select id="receta" onchange="calcular()">
-        <option value="80">Arroz Blanco Tradicional</option>
-        <option value="100">Arroz con Pollo</option>
-        <option value="90">Arroz Atollado</option>
+        <option value="80">Arroz Blanco Tradicional (80g p/p)</option>
+        <option value="100">Arroz con Pollo Especial (100g p/p)</option>
+        <option value="90">Arroz Atollado Valluno (90g p/p)</option>
     </select>
 
-    <label>¿Cuántas personas van a comer?</label>
+    <label>¿Para cuántas personas?</label>
     <input type="number" id="comensales" value="1" min="1" oninput="calcular()">
 
     <div class="resultado">
-        <p>Necesitas: <strong><span id="gramos">80</span>g</strong> de SUPERARROZ</p>
-        <p>Costo del arroz: <strong>$<span id="costo">280</span></strong></p>
+        Necesitas: <strong><span id="gramos">80</span>g</strong><br>
+        Costo SUPERARROZ: <strong>$<span id="costo">280</span></strong>
     </div>
 
-    <div id="preparacion" class="preparacion-box">
-        </div>
+    <div id="detalle-preparacion" class="preparacion-box"></div>
 
-    <button class="btn-pedir" onclick="enviarWhatsApp()">🛒 Enviar Pedido a Distrileco</button>
+    <button class="btn-pedir" onclick="enviarWhatsApp()">🚀 Enviar Pedido y Receta</button>
     
     <p class="footer-text">
-        App desarrollada por <strong>Vibras Positivas</strong><br>
+        <strong>App desarrollada por Vibras Positivas</strong><br>
         Derecho de autor (3117700431)<br>
-        <em>Distrileco: Calidad en SUPERARROZ y VISTAHERMOSA</em>
+        Distribuidora Distrileco - Caucasia, Antioquia
     </p>
 </div>
 
 <script>
-    const PRECIO_GRAMO = 3.5; // Precio corregido a 3.5 COP por gramo
+    const PRECIO_GRAMO = 3.5; 
 
-    const recetasInfo = {
+    const datosRecetas = {
         "80": {
-            ingredientes: "SUPERARROZ, agua, sal, aceite y ajo al gusto.",
-            pasos: "Sofríe el ajo, añade 2 tazas de agua por 1 de SUPERARROZ, sal y deja secar a fuego lento."
+            nombre: "Arroz Blanco Tradicional",
+            ingredientes: "SUPERARROZ, 2 tazas de agua por 1 de arroz, aceite, sal y ajo.",
+            pasos: "Calienta el aceite, sofríe el arroz con ajo, añade el agua y sal. Deja secar y tapa a fuego mínimo por 15 min."
         },
         "100": {
-            ingredientes: "SUPERARROZ, pechuga de pollo, arveja, zanahoria, pimentón y caldo de pollo.",
-            pasos: "Cocina el pollo y usa ese caldo (2.5 tazas por 1 de arroz). Mezcla todo y deja que SUPERARROZ absorba todo el sabor."
+            nombre: "Arroz con Pollo Especial",
+            ingredientes: "SUPERARROZ, pechuga desmechada, verduras (arveja, zanahoria), pimentón y caldo de pollo.",
+            pasos: "Sofríe las verduras con el arroz, añade el caldo (2.5 tazas por 1 de arroz) y el pollo. Cocina hasta que esté tierno."
         },
         "90": {
-            ingredientes: "SUPERARROZ, cerdo, pollo, papa picada, hogao y cilantro.",
-            pasos: "Es un arroz 'asopado'. Usa más líquido de lo normal para que quede húmedo y suave. Ideal para domingos."
+            nombre: "Arroz Atollado Valluno",
+            ingredientes: "SUPERARROZ, cerdo, pollo, papa amarilla, hogao y mucho cilantro.",
+            pasos: "Cocina las carnes con el arroz y abundante líquido. La clave es que quede húmedo (tipo risotto) y bien sazonado."
         }
     };
 
-    function actualizarFecha() {
-        const opciones = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit', second: '2-digit', timeZone: 'America/Bogota' };
-        document.getElementById('fecha-actual').innerText = new Date().toLocaleDateString('es-CO', opciones).toUpperCase();
+    function actualizarReloj() {
+        const ahora = new Date();
+        const opciones = { 
+            timeZone: 'America/Bogota', 
+            weekday: 'long', 
+            year: 'numeric', 
+            month: 'long', 
+            day: 'numeric',
+            hour: '2-digit', 
+            minute: '2-digit', 
+            second: '2-digit' 
+        };
+        document.getElementById('fecha-colombia').innerText = ahora.toLocaleDateString('es-CO', opciones).toUpperCase();
     }
 
     function calcular() {
-        let recetaGramos = document.getElementById('receta').value;
-        let personas = document.getElementById('comensales').value;
-        
-        let totalGramos = recetaGramos * personas;
-        let costoTotal = totalGramos * PRECIO_GRAMO;
+        let r = document.getElementById('receta').value;
+        let p = document.getElementById('comensales').value;
+        let totalG = r * p;
+        let totalC = totalG * PRECIO_GRAMO;
 
-        document.getElementById('gramos').innerText = totalGramos;
-        document.getElementById('costo').innerText = new Intl.NumberFormat('es-CO').format(Math.round(costoTotal));
+        document.getElementById('gramos').innerText = totalG;
+        document.getElementById('costo').innerText = Math.round(totalC).toLocaleString('es-CO');
 
-        // Actualizar instrucciones
-        const info = recetasInfo[recetaGramos];
-        document.getElementById('preparacion').innerHTML = `
-            <strong>Ingredientes:</strong> ${info.ingredientes}<br><br>
-            <strong>Preparación:</strong> ${info.pasos}
+        let info = datosRecetas[r];
+        document.getElementById('detalle-preparacion').innerHTML = `
+            <strong>📝 Ingredientes:</strong><br>${info.ingredientes}<br><br>
+            <strong>👨‍🍳 Pasos:</strong><br>${info.pasos}
         `;
     }
 
     function enviarWhatsApp() {
-        let userTel = document.getElementById('user-whatsapp').value;
-        let recetaNombre = document.getElementById('receta').options[document.getElementById('receta').selectedIndex].text;
+        let contacto = document.getElementById('user-info').value;
+        let recetaVal = document.getElementById('receta').value;
+        let personas = document.getElementById('comensales').value;
         let gramos = document.getElementById('gramos').innerText;
-        let distrilecoTel = "3117700431"; 
+        let costo = document.getElementById('costo').innerText;
+        let fecha = document.getElementById('fecha-colombia').innerText;
+        
+        let infoReceta = datosRecetas[recetaVal];
 
-        if(!userTel) {
-            alert("Por favor ingresa tu número para identificarte");
+        if(!contacto) {
+            alert("Por favor, ingresa tu nombre o número para el pedido.");
             return;
         }
+
+        let distrilecoNum = "3117700431"; 
         
-        let mensaje = `*PEDIDO DISTRILECO*\n` +
-                      `--------------------------\n` +
-                      `👤 Cliente: ${userTel}\n` +
-                      `🍛 Plato: ${recetaNombre}\n` +
-                      `🌾 Cantidad: ${gramos}g de SUPERARROZ\n` +
-                      `⏰ Fecha: ${document.getElementById('fecha-actual').innerText}\n` +
-                      `--------------------------\n` +
-                      `¡Hola! Quiero pedir este arroz a domicilio.`;
-        
-        window.open(`https://wa.me/${distrilecoTel}?text=${encodeURIComponent(mensaje)}`);
+        // Mensaje estructurado para el vendedor
+        let mensaje = `*NUEVO PEDIDO - DISTRILECO*\n`;
+        mensaje += `━━━━━━━━━━━━━━━\n`;
+        mensaje += `👤 *Cliente:* ${contacto}\n`;
+        mensaje += `📅 *Fecha:* ${fecha}\n`;
+        mensaje += `🍚 *Producto:* SUPERARROZ\n`;
+        mensaje += `🍛 *Plato:* ${infoReceta.nombre}\n`;
+        mensaje += `👥 *Personas:* ${personas}\n`;
+        mensaje += `⚖️ *Cantidad:* ${gramos}g\n`;
+        mensaje += `💰 *Costo base:* $${costo}\n`;
+        mensaje += `━━━━━━━━━━━━━━━\n`;
+        mensaje += `📖 *RECETA SOLICITADA:*\n`;
+        mensaje += `*Ingredientes:* ${infoReceta.ingredientes}\n`;
+        mensaje += `*Preparación:* ${infoReceta.pasos}\n`;
+        mensaje += `━━━━━━━━━━━━━━━\n`;
+        mensaje += `_Enviado desde la App de Vibras Positivas_`;
+
+        window.open(`https://wa.me/${distrilecoNum}?text=${encodeURIComponent(mensaje)}`);
     }
 
-    // Inicializar
-    setInterval(actualizarFecha, 1000);
-    actualizarFecha();
+    setInterval(actualizarReloj, 1000);
+    actualizarReloj();
     calcular();
 </script>
 
